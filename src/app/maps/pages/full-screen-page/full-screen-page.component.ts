@@ -17,14 +17,14 @@ export class FullScreenPageComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    if(!this.divMap) throw 'el elemento html no fue encontrado'
+    // if(!this.divMap) throw 'el elemento html no fue encontrado'
 
     const map = new mapboxgl.Map({
-      container: this.divMap?.nativeElement, // container ID
+      container: 'map', // container ID
       style: 'mapbox://styles/mapbox/streets-v12', // style URL
       center: [-74.5, 40], // starting position [lng, lat]
       zoom: 9, // starting zoom
-    });
+    })
   }
 
 
