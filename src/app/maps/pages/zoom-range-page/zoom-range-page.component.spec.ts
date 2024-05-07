@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ZoomRangePageComponent } from './zoom-range-page.component';
+import ZoomRangePageComponent from './zoom-range-page.component';
 
 describe('ZoomRangePageComponent', () => {
   let component: ZoomRangePageComponent;
