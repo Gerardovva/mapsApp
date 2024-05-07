@@ -2,11 +2,14 @@
 
 
 <ul class="list-group">
-    <li class="list-group-item">
-        Market 1
+    <li *ngFor="let colorMarker of markers; let i=index"
+        [ngStyle]="{backgroundColor:colorMarker.color}"
+        (dblclick)="deletemarker(i)"
+        class="list-group-item">
+        Marker {{i+1}}
     </li>
 </ul>
 
-<button class="btn btn-primary">
+<button (click)="createMarket()" class="btn btn-primary">
     + Agregar marcador
 </button>
