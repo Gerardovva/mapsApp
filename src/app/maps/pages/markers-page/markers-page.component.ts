@@ -5,6 +5,10 @@ interface MarkerAndColor {
   color: string;
   marker: Marker;
 }
+interface PlainMarker {
+  color: string;
+  lngLat: number[];
+}
 
 @Component({
   selector: 'app-markers-page',
@@ -30,6 +34,8 @@ export class MarkersPageComponent {
       center: this.currenrLngLat, // starting position [lng, lat]
       zoom: 14, // starting zoom
     });
+
+    this.readFromLocalstorage();
     /*
     const marketHTml = document.createElement('div');
     marketHTml.innerHTML='Gerardo '
@@ -49,7 +55,6 @@ export class MarkersPageComponent {
     this.addMarket(lngLat, color);
   }
 
-
   addMarket(lngLat: LngLat, color: string) {
     if (!this.map) return;
 
@@ -59,16 +64,54 @@ export class MarkersPageComponent {
     }).setLngLat(lngLat)
       .addTo(this.map);
 
+
     this.markers.push({
       color: color,
       marker: marker
     });
+
+    this.saveToLocalstorage();//se llama al local storage
+
+    marker.on('dragend',()=> {
+     this.saveToLocalstorage();
+      
+    })
   }
 
-  deletemarker(index:number){
+  deletemarker(index: number) {
     this.markers[index].marker.remove(); //elimina del mapa 
-    this.markers.splice(index,1) // se elimina el marcador del areglo
+    this.markers.splice(index, 1) // se elimina el marcador del areglo
   }
 
+
+  flyTo(marker: Marker) {
+    this.map?.flyTo({
+      zoom: 14,
+      center: marker.getLngLat(),
+    })
+  }
+
+
+  saveToLocalstorage() {
+    const plainMarkers: PlainMarker[] = this.markers.map(({ color, marker }) => {
+      return {
+        color,
+        lngLat: marker.getLngLat().toArray()
+      }
+    });
+    localStorage.setItem('plainMarkes', JSON.stringify(plainMarkers));
+  }
+
+  readFromLocalstorage() {
+    const plainMarkersString = localStorage.getItem('plainMarkes') ?? '[]';
+    const plainMarkers: PlainMarker[] = JSON.parse(plainMarkersString);
+
+    plainMarkers.forEach(({ color, lngLat }) => {
+      const [lng, lat] = lngLat;
+      const coords = new LngLat(lng, lat);
+      this.addMarket(coords,color)
+    })
+
+  }
 
 }//cierre clase
