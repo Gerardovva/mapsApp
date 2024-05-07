@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Map, Marker } from 'mapbox-gl';
+import { CounterAloneComponent } from 'src/app/alone/components/counter-alone/counter-alone.component';
 
 @Component({
   selector: 'map-mimi-map',
